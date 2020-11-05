@@ -4,11 +4,17 @@ typora-root-url: 笔记保存图片
 
 # pytorch—维度变换
 
-![image-20201105190344760](pytorch%E2%80%94%E7%BB%B4%E5%BA%A6%E5%8F%98%E6%8D%A2.assets/image-20201105190344760.png)
+
+
+![image-20201105190808444](https://i.loli.net/2020/11/05/ltNJ5woYsUVKCpe.png)
 
 
 
-![image-20201105190808444](/../pytorch%E2%80%94%E7%BB%B4%E5%BA%A6%E5%8F%98%E6%8D%A2.assets/image-20201105190808444.png)
+![image-20201105195447653](https://i.loli.net/2020/11/05/f1rLaYxPkz8X56W.png)
+
+
+
+![image-20201105195618447](https://i.loli.net/2020/11/05/XCDOheg3ANpSRMu.png)
 
 
 
