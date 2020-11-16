@@ -83,3 +83,6 @@ a.round()             #数据的四舍五入计算
 
 ![image-20201107081925868](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/8EJ51ARIPVkWdh2.png)
 
+## clamp
+
+实现裁剪功能。

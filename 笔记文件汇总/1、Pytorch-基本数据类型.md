@@ -1,7 +1,5 @@
 ---
 
-
-
 ---
 
 # Pytorch 基本数据类型
@@ -130,13 +128,21 @@ torch.FloatTensor()    既可以根据已有数据来生成，也可以根据给
 
 torch.empty()  ：给定shape可以生成未初始化的数据。
 
-torch.FloatTensor( )  :  给定shape可以生成未初始化的数据。也可以根据具体的数据生成张量。
+torch.Tensor(): 若为指定生成张量类型，则生成默认的类型，一般是FlaotTensor。
+
+torch.FloatTensor( )  :  给定shape可以生成未初始化的浮点型数据。也可以根据具体的数据生成张量。
+
+torch.IntTensor( )  :  给定shape可以生成未初始化的整型数据。也可以根据具体的数据生成张量。
 
 生成的额数据是随机的，可能很大或者很小，一般不能直接用于计算，需要后续的赋值。
 
-![image-20201110193515679](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110193515679.png)
+![image-20201115105901353](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201115105901353.png)
+
+
 
 ### 初始化张量
+
+#### 随机生成
 
 torch.rand()   : 初始化的每一个数据都是在从0 到1 之间随机均匀选取的。
 
@@ -153,6 +159,14 @@ torch.randn(3,3)    :   根据正态化生成数据，N(0,1),  以0为均值，�
 torch.normal(mean=3 ,std=torch.arange(1,0,-0.1))    :  mean是生成数据的平均值，std是数据的方差，后面表示方差从1到0以步长0.1减小。也可以只填写前面两个值，默认步长为1。后面括号中的参数，需要包含浮点数，全是小数的时候会报错。
 
 ![image-20201108143333136](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201108143333136.png)
+
+torch.randperm(n)   :  生成0到n-1 的一维张量，顺序是打散了的。
+
+![image-20201110194905773](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110194905773.png)
+
+#### 根据数值要求
+
+
 
 torch.full([2,3],5)  :   表示生成一个2*3的矩阵，里面的数据全部是5。数据的类型为默认类型。
 
@@ -186,9 +200,7 @@ torch.eye():   生成对角矩阵，但是传入的参数，只能是两个或�
 
 ![image-20201110194540300](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110194540300.png)
 
-torch.randperm(n)   :  生成0到n-1 的一维张量，顺序是打散了的。
 
-![image-20201110194905773](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110194905773.png)
 
 运用的例子。比如数据的第一排表示的是人，后面分别表示的是数学成绩和语文成绩，我们希望两个数据集能够同步。比如人都从第一行换到第二行。
 
@@ -200,13 +212,59 @@ torch.tensor()  :   里面的数据类型会给定默认的数据类型。比如
 
 torch.Tensor（）：无论是整数还是小数，全部设置为默认的tensor类型。生成的tensor数据类型会受到默认设置的改变。
 
+区别一：
+
+- `torch.Tensor（data）`是将输入的data转化`torch.FloatTensor`
+- `torch.tensor(data)`:(当你未指定`dype`的类型时)将data转化为`torch.FloatTensor`、`torch.LongTensor`、`torch.DoubleTensor`等类型，转化类型依据于data的类型或者`dtype`的值
+
 torch.set_default_tensor_type(torch.DoubleTensor)     使用该方法可以设置默认类型。
 
 ![image-20201110195516251](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110195516251.png)
 
 ![image-20201110195538602](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201110195538602.png)
 
+## 参数解析
 
+使用dir可以查看里面有哪些工具，
 
+![image-20201115112755836](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201115112755836.png)
 
+使用help()可以查看如何使用工具
+
+![image-20201115112817009](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201115112817009.png)
+
+```
+创建一个未被初始化数值的tensor,tensor的大小是由size确定
+
+size: 定义tensor的shape ，这里可以是一个list 也可以是一个tuple
+
+out: 根据之前已有张量，则根据其数据复制给新的张量。之后将该数据重新复制给改变量。如果之前没有改张量，则相当于将该张量赋值。
+
+dtype:（可选）我不设置值 默认值就是torch.set_default_tensor_type制定的值，如果需要设置那就是torch.dtype的那几个。作用是指定返回tensor的数据类型
+
+layout:(可选)值为 torch.layout。 torch.layout表示torch.Tensor内存布局的对象。有torch.strided(dense Tensors 默认)并为torch.sparse_coo(sparse COO Tensors)提供实验支持。
+torch.strided代表密集张量，是最常用的内存布局。每个strided张量都会关联 一个torch.Storage，它保存着它的数据。这些张力提供了多维度， 存储的strided视图。Strides是一个整数型列表：k-th stride表示在张量的第k维从一个元素跳转到下一个元素所需的内存。
+
+device：表现 torch.Tensor被分配的设备类型的类，其中分为’cpu’ 和 ‘cuda’两种。没有设置就使用当前设备。
+
+requires_grad: (可选)是bool 类型的值，默认值是False 是否计算梯度
+
+pin_memory：是否存于锁页内存
+```
+
+out参数：
+
+![image-20201115111851018](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201115111851018.png)
+
+layout参数：
+
+表示张量内存布局的对象。`Strides`是一个整数型列表：`k-th stride`表示在张量的第k维从一个元素跳转到下一个元素所需的内存。
+
+```
+#12表示从最高维度的一个元素到下一个元素所需内存
+#4 表示从在第二个维度中一个元素跳到下一个元素所需内存
+#1  表示在第三个也就是最后一个维度红一个元素到下一个元素所需内存
+```
+
+![image-20201115121921465](https://cdn.jsdelivr.net/gh/rts-coder/pytorch-learning/img/image-20201115121921465.png)
 
